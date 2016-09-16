@@ -12,6 +12,8 @@
 #
 DISCOVERY_GIT_IDENTITY: !!null
 
+DISCOVERY_CLOUDFRONT: !!null
+
 # depends upon Newrelic being enabled via COMMON_ENABLE_NEWRELIC
 # and a key being provided via NEWRELIC_LICENSE_KEY
 DISCOVERY_NEWRELIC_APPNAME: "{{ COMMON_ENVIRONMENT }}-{{ COMMON_DEPLOYMENT }}-{{ discovery_service_name }}"
