@@ -114,8 +114,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box     = openedx_releases[rel][:name]
   config.vm.box_url = "http://files.edx.org/vagrant-images/#{openedx_releases[rel][:file]}"
 
-  config.vm.network :private_network, ip: "192.168.33.10"
-
   # If you want to run the box but don't need network ports, set VAGRANT_NO_PORTS=1.
   # This is useful if you want to run more than one box at once.
   if not ENV['VAGRANT_NO_PORTS']
@@ -160,6 +158,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Allow DNS to work for Ubuntu 12.10 host
     # http://askubuntu.com/questions/238040/how-do-i-fix-name-service-for-vagrant-client
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+
+    # Add the private network. Doesn't apply to libvirt/kvm because
+    # multiple users will conflict.
+    override.vm.network :private_network, ip: "192.168.33.10"
 
     # Use vagrant-vbguest plugin to make sure Guest Additions are in sync
     override.vbguest.auto_reboot = true
