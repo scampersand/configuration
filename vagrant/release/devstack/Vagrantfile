@@ -113,8 +113,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "http://files.edx.org/vagrant-images/#{boxfile}"
   config.vm.box_check_update = false
 
-  config.vm.network :private_network, ip: "192.168.33.10"
-
   # If you want to run the box but don't need network ports, set VAGRANT_NO_PORTS=1.
   # This is useful if you want to run more than one box at once.
   if not ENV['VAGRANT_NO_PORTS']
@@ -165,7 +163,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     if !(boxname.include?("dogwood") || boxname.include?("eucalyptus"))
       vb.customize ['modifyvm', :id, '--nictype1', 'virtio']
     end
-  end
+
+    # Add the private network. Doesn't apply to libvirt/kvm because
+    # multiple users will conflict.
+    override.vm.network :private_network, ip: "192.168.33.10"
 
     # Use vagrant-vbguest plugin to make sure Guest Additions are in sync
     override.vbguest.auto_reboot = true
