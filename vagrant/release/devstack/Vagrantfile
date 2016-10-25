@@ -1,7 +1,4 @@
 Vagrant.require_version ">= 1.8.7"
-unless Vagrant.has_plugin?("vagrant-vbguest")
-  raise "Please install the vagrant-vbguest plugin by running `vagrant plugin install vagrant-vbguest`"
-end
 
 VAGRANTFILE_API_VERSION = "2"
 
@@ -155,7 +152,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
   end
 
-  config.vm.provider :virtualbox do |vb|
+  config.vm.provider :virtualbox do |vb, override|
     vb.customize ["modifyvm", :id, "--memory", MEMORY.to_s]
     vb.customize ["modifyvm", :id, "--cpus", CPU_COUNT.to_s]
 
@@ -170,9 +167,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  # Use vagrant-vbguest plugin to make sure Guest Additions are in sync
-  config.vbguest.auto_reboot = true
-  config.vbguest.auto_update = true
+    # Use vagrant-vbguest plugin to make sure Guest Additions are in sync
+    override.vbguest.auto_reboot = true
+    override.vbguest.auto_update = true
+  end
 
   # Enable running on hosts with libvirt and KVM. This requires the
   # vagrant-libvirt plugin and the user needs to be in the libvirt group
