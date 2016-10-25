@@ -131,6 +131,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network :forwarded_port, guest: 50070, host: 50070  # HDFS Admin UI
     config.vm.network :forwarded_port, guest: 8088, host: 8088  # Hadoop Resource Manager
   end
+  config.ssh.password = "vagrant"
   config.ssh.insert_key = true
 
   config.vm.synced_folder  ".", "/vagrant", disabled: true
