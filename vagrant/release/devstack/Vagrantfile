@@ -169,6 +169,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vbguest.auto_reboot = true
   config.vbguest.auto_update = true
 
+  # Enable running on hosts with libvirt and KVM. This requires the
+  # vagrant-libvirt plugin and the user needs to be in the libvirt group
+  # (or suffer through polkit password prompts)
+  #   vagrant plugin install vagrant-libvirt
+  #   sudo usermod -aG libvirt $USER
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.memory = MEMORY
+    libvirt.cpus = CPU_COUNT
+
+    # Avoid libvirt domain name conflict on "devstack_default" when there
+    # are multiple vagrant users on a single host. This generates a name
+    # such as "devstack_default_1477350649_b0dfac1378803d973f25"
+    libvirt.random_hostname = true
+  end
+
   # Assume that the base box has the edx_ansible role installed
   # We can then tell the Vagrant instance to update itself.
   config.vm.provision "shell", inline: $script, args: rel
