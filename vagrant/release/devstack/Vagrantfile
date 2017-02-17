@@ -1,4 +1,4 @@
-Vagrant.require_version ">= 1.8.7"
+Vagrant.require_version ">= 1.8.5"
 
 VAGRANTFILE_API_VERSION = "2"
 
